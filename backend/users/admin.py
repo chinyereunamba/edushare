@@ -5,18 +5,39 @@ from .models import Account, StudentProfile, LecturerProfile
 
 
 class AccountAdmin(UserAdmin):
-    list_display = ['email', "first_name", "last_name",
-                    "is_active", "last_login", "date_joined"]
-    search_fields = ["email", "first_name", "last_name"]
+    fieldsets = (
+        (None, {'fields': ('email','password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name')}),
+        ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser',
+                                    'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2'),
+        }),
+    )
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('first_name', 'last_name', 'email')
+    ordering = ('email',)
+
+    # Exclude 'last_login' from the form
+    readonly_fields = ('last_login', 'date_joined')
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
-    # list_display = ["level"]
-    filter_horizontal = ['level']
+    list_display = ('user', 'level', 'department', 'faculty')
+    search_fields = ('user__email', 'level', 'department', 'faculty')
+    list_filter = ('level', 'department', 'faculty')
+
 
 class LecturerProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'title', 'phone', 'department',
+                    'faculty', 'years_of_experience')
+    search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
+    list_filter = ('title', 'department', 'faculty')
 
 admin.site.register(Account, AccountAdmin)
-admin.site.register(StudentProfile,)
-admin.site.register(LecturerProfile)
+admin.site.register(StudentProfile, StudentProfileAdmin)
+admin.site.register(LecturerProfile, LecturerProfileAdmin)

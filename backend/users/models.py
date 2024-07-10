@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 # Create your models here.
 
 
@@ -44,7 +45,8 @@ class Account(AbstractUser):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)\
+    
 
     groups = models.ManyToManyField(
         Group,
@@ -74,10 +76,11 @@ class Account(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to="images", blank=True, null=True)
+    user_id = models.UUIDField(unique=True, max_length=15, blank=True, null=True)
+    profile_image = models.ImageField(
+        upload_to="images", blank=True, null=True)
     department = models.CharField(max_length=255, blank=False, null=False)
     faculty = models.CharField(max_length=225, blank=False, null=False)
-
 
     class Meta:
         abstract = True
@@ -96,10 +99,23 @@ LEVELS = [
 
 class StudentProfile(Profile):
     level = models.CharField(choices=LEVELS, max_length=100, blank=False)
+    graduation_year = models.DateField(default=datetime.now())
+
+    
+    def __str__(self):
+        return self.user.email
+    
+    class Meta:
+        verbose_name = "Student Profile"
+
+
+class LecturerProfile(Profile):
+    title = models.CharField(max_length=100, )
+    phone = models.CharField(max_length=20, blank=False, null=False)
+    years_of_experience = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.user.email
     
-
-class LecturerProfile(Profile):
-    pass
+    class Meta:
+        verbose_name = "Lecturer Profile"

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,10 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites"
 ]
 
 PROJECT_APPS = [
-    'users'
+    'users',
+    "rest_framework",
+    "rest_framework.authtoken",
+    "allauth",
+    "allauth.account",
+    # "allauth.socialaccount",
+    # "allauth.socialaccount.providers.google",
+    "dj_rest_auth",
+    "dj_rest_auth.registration"
+
 ]
 
 INSTALLED_APPS += PROJECT_APPS
@@ -56,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -138,3 +150,40 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.ConsoleBackend'
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+         'EMAIL_AUTHENTICATION': True,
+        "APP": {
+            'client_id': 'your google client id',
+            'secret': "",
+            'key': ''
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+# Simple JWT settings
+REST_USE_JWT = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer", ),
+}
