@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, **extra_fields):
+    def create_superuser(self, email,  **extra_fields):
 
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -28,7 +28,9 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        user = self.create_user(email=email, **extra_fields)
+        user = self.create_user(
+            email=email,
+            **extra_fields)
 
         user.save()
         return user
@@ -46,7 +48,6 @@ class Account(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    
 
     groups = models.ManyToManyField(
         Group,
@@ -76,7 +77,8 @@ class Account(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    user_id = models.UUIDField(unique=True, max_length=15, blank=True, null=True)
+    user_id = models.UUIDField(
+        unique=True, max_length=15, blank=True, null=True)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
     department = models.CharField(max_length=255, blank=False, null=False)
@@ -101,10 +103,9 @@ class StudentProfile(Profile):
     level = models.CharField(choices=LEVELS, max_length=100, blank=False)
     graduation_year = models.DateField()
 
-    
     def __str__(self):
         return self.user.email
-    
+
     class Meta:
         verbose_name = "Student Profile"
 
@@ -116,6 +117,6 @@ class LecturerProfile(Profile):
 
     def __str__(self):
         return self.user.email
-    
+
     class Meta:
         verbose_name = "Lecturer Profile"
