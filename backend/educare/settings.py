@@ -46,6 +46,7 @@ PROJECT_APPS = [
     'users',
     "base",
     "notifications",
+    "sales",
     "rest_framework",
     "rest_framework.authtoken",
     "allauth",
