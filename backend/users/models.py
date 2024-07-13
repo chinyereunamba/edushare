@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
-from datetime import datetime
+from django.utils import timezone
 # Create your models here.
 
 
@@ -45,7 +45,7 @@ class Account(AbstractUser):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)\
+    is_superuser = models.BooleanField(default=False)
     
 
     groups = models.ManyToManyField(
@@ -99,7 +99,7 @@ LEVELS = [
 
 class StudentProfile(Profile):
     level = models.CharField(choices=LEVELS, max_length=100, blank=False)
-    graduation_year = models.DateField(default=datetime.now())
+    graduation_year = models.DateField()
 
     
     def __str__(self):
