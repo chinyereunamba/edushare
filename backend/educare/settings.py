@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 PROJECT_APPS = [
     'users',
+    "base",
     "rest_framework",
     "rest_framework.authtoken",
     "allauth",
