@@ -6,16 +6,16 @@ from .models import Account, StudentProfile, LecturerProfile
 
 class AccountAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('email','password')}),
+        (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser',
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
                                     'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
+            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2'),
         }),
     )
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
@@ -37,6 +37,7 @@ class LecturerProfileAdmin(admin.ModelAdmin):
                     'faculty', 'years_of_experience')
     search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
     list_filter = ('title', 'department', 'faculty')
+
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(StudentProfile, StudentProfileAdmin)

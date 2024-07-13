@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 PROJECT_APPS = [
     'users',
     "base",
+    "notifications",
     "rest_framework",
     "rest_framework.authtoken",
     "allauth",
@@ -157,7 +158,7 @@ SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.ConsoleBackend'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-         'EMAIL_AUTHENTICATION': True,
+        'EMAIL_AUTHENTICATION': True,
         "APP": {
             'client_id': 'your google client id',
             'secret': "",
