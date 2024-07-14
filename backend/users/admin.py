@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Account, StudentProfile, LecturerProfile
+from .models import Account, StudentProfile, LecturerProfile, NormalUser
 # Register your models here.
 
 
@@ -39,6 +39,13 @@ class LecturerProfileAdmin(admin.ModelAdmin):
     list_filter = ('title', 'department', 'faculty')
 
 
+class NormalUserProfileAdmin(admin.ModelAdmin):
+    list_display = ("user",'unique_id', )
+    search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
+
+
+
 admin.site.register(Account, AccountAdmin)
 admin.site.register(StudentProfile, StudentProfileAdmin)
 admin.site.register(LecturerProfile, LecturerProfileAdmin)
+admin.site.register(NormalUser, NormalUserProfileAdmin)
