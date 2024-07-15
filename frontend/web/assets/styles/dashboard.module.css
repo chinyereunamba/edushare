@@ -1,0 +1,49 @@
+.dashboardContainer {
+  display: grid;
+  grid-template-columns: minmax(100px, 288px) 1fr;
+  grid-template-rows: 1fr;
+  height: 100dvh;
+  @apply bg-background-600;
+}
+.sidebar {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.header {
+  @apply p-3 bg-background w-full h-16;
+  padding: 1rem 2rem;
+}
+
+.page {
+  grid-column: 2/-1;
+}
+
+.content {
+  padding: 1rem 2rem;
+}
+
+.card {
+  @apply flex flex-col gap-3 mt-5;
+}
+.cardHeader {
+  @apply flex gap-3 items-center py-2;
+}
+
+.cardHeader .img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.cardFooter {
+  @apply flex gap-5 py-2;
+}
+
+.cardFooter span {
+  padding: var(--btn-sm-pd);
+}
+
+.cardFooter span:first-child {
+  padding-left: 0;
+}

@@ -1,0 +1,33 @@
+.sidebar{
+    @apply fixed w-72 h-full bg-primary text-white text-lg 
+    flex flex-col justify-between px-2 py-5;
+}
+
+.menuContent li{
+    padding: var(--box-norm-pd);
+    border-radius: 12px;
+    transition: all .3s;
+}
+.menuContent li:hover{
+    @apply bg-primary-400;
+}
+
+.themeChange{
+    @apply flex justify-between cursor-pointer;
+    padding: var(--box-norm-pd);
+}
+
+.themeSlider{
+ @apply w-16 bg-gray-50 h-8 rounded-2xl 
+}
+
+.sliderBlob{
+    display: flex;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all .5s;
+}
