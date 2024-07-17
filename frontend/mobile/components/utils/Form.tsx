@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextStyle,
 } from "react-native";
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 
@@ -26,6 +26,7 @@ type Input = {
   value?: string;
   error?: string;
   placeholder: string;
+  props?: PropsWithChildren;
   handleChange?: (e: string) => void;
 };
 
@@ -56,6 +57,7 @@ export default function Form({ formType, inputList, submitHandler }: Props) {
               placeholder={input.placeholder}
               secureTextEntry={viewPassword}
               cursorColor={Colors.light.primary}
+              {...input.props}
             />
             <TouchableOpacity
               style={styles.passwordIcon}
@@ -78,7 +80,7 @@ export default function Form({ formType, inputList, submitHandler }: Props) {
 
 const styles = StyleSheet.create({
   formContainer: {
-    gap: 20,
+    gap: 1,
   },
   formInput: {
     borderWidth: 1,
