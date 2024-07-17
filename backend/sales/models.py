@@ -10,7 +10,7 @@ class Book(models.Model):
     seller = models.OneToOneField(LecturerProfile, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
-    author = models.CharField(max_length=125)
+    authors = models.CharField(max_length=125)
     file = models.FileField(upload_to='files')
     price = models.PositiveIntegerField(null=False, blank=False)
     added_at = models.DateTimeField(auto_now_add=True)

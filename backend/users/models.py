@@ -145,6 +145,7 @@ class Profile(models.Model):
     bio: A TextField for storing the user's biography. It can be left blank or null.
     user_id: A UUIDField for storing a unique identifier for the user. It can be left blank or null.
     profile_image: An ImageField for storing the user's profile image. It can be left blank or null.
+    institution: A CharField for storing the user's institution. It cannot be left blank or null.
     department: A CharField for storing the user's department. It cannot be left blank or null.
     faculty: A CharField for storing the user's faculty. It cannot be left blank or null.
 
@@ -161,6 +162,7 @@ class Profile(models.Model):
         unique=True, max_length=15, blank=True, null=True)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
+    institution = models.CharField(max_length=225, blank=True, null=True)
     department = models.CharField(max_length=255, blank=False, null=False)
     faculty = models.CharField(max_length=225, blank=False, null=False)
 
