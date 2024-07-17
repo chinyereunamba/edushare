@@ -1,5 +1,5 @@
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Colors } from "@/constants/Colors";
 
 type Props = {
@@ -7,24 +7,43 @@ type Props = {
   fnc: () => void;
   color: string;
   bg: string;
+  disabled?: boolean;
   icon?: React.JSX.Element;
 };
 
-export default function CustomButton({ title, fnc, color, bg, icon }: Props) {
+export default function CustomButton({
+  title,
+  fnc,
+  color,
+  bg,
+  icon,
+  disabled,
+}: Props) {
   return (
     <TouchableOpacity
       onPress={fnc}
-      style={[styles.buttonContainer, { backgroundColor: bg }]}
+      style={[
+        styles.buttonContainer,
+        {
+          backgroundColor: !disabled
+            ? bg !== ""
+              ? bg
+              : Colors.light.primary
+            : Colors.light.primary600,
+        },
+      ]}
     >
       <Text
         style={[
           styles.buttonText,
-          { color: color, gap: 10, alignItems: "center" },
+          {
+            color: color !== "" ? color : Colors.light.background,
+            gap: 10,
+            alignItems: "center",
+          },
         ]}
       >
-        <Text style={{ marginRight: 50, borderWidth: 2, }}>
-          {icon}
-        </Text>
+        <Text style={{ marginRight: 50, borderWidth: 2 }}>{icon}</Text>
         <Text>{title}</Text>
       </Text>
     </TouchableOpacity>

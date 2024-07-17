@@ -4,10 +4,11 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Form from "@/components/utils/InputField";
+import Form from "@/components/utils/Form";
 import CustomButton from "@/components/utils/Button";
 import { Colors } from "@/constants/Colors";
 import { Link } from "expo-router";
@@ -24,7 +25,11 @@ export default function Register() {
       : false;
   return (
     <ScrollView>
-      <KeyboardAvoidingView style={[styles.container]}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS == "ios" ? 100 : 0}
+      >
         <Text
           style={{
             fontSize: 24,
@@ -73,20 +78,9 @@ export default function Register() {
           <CustomButton
             title="Sign up"
             color={Colors.light.background}
-            bg={empty ? Colors.light.accent : Colors.light.primary}
+            bg={empty ? Colors.light.primary600 : Colors.light.primary}
             fnc={() => {}}
           />
-          <Link
-            href={"/login"}
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              marginVertical: 10,
-              fontWeight: "700",
-            }}
-          >
-            <Text>Login</Text>
-          </Link>
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
@@ -97,7 +91,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    gap: 27,
-    justifyContent: "center",
+    gap: 20,
   },
 });

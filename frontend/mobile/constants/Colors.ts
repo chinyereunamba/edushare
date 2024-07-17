@@ -10,7 +10,7 @@ export const Colors = {
   light: {
     text: '#24292dff',
     primary: '#0f4c75ff',
-    primary600: '#0f4c7506',
+    primary600: '#0f4c7599',
     secondary: '#faac47ff',
     accent: '#faac47ff',
     background: '#fff',
