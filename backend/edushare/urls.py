@@ -20,16 +20,19 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from base.urls import router as base_router
 from sales.urls import router as sales_router
+from users.urls import router as users_router
 
 
 class CombinedRouter(DefaultRouter):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for router in args:
-            self.registry.extend(router.registry)
+    def extend(self, router):
+        self.registry.extend(router.registry)
 
 
-router = CombinedRouter(base_router, sales_router)
+router = CombinedRouter()
+router.extend(base_router)
+router.extend(sales_router)
+router.extend(users_router)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),

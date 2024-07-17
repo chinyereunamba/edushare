@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
+import uuid
 # Create your models here.
 
 
@@ -159,15 +160,16 @@ class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     user_id = models.UUIDField(
-        unique=True, max_length=15, blank=True, null=True)
+        unique=True, default=uuid.uuid4, editable=False, max_length=15, blank=True, null=True)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
     institution = models.CharField(max_length=225, blank=True, null=True)
-    department = models.CharField(max_length=255, blank=False, null=False)
-    faculty = models.CharField(max_length=225, blank=False, null=False)
+    department = models.CharField(max_length=255, blank=True, null=True)
+    faculty = models.CharField(max_length=225, blank=True, null=True)
 
     class Meta:
         abstract = True
+
 
 
 LEVELS = [
@@ -206,6 +208,11 @@ class StudentProfile(Profile):
     class Meta:
         verbose_name = "Student Profile"
 
+    def save(self, *args, **kwargs):
+        if not self.user_id:
+            self.user_id = uuid.uuid4()
+        super().save(*args, **kwargs)
+
 
 class LecturerProfile(Profile):
     """
@@ -232,20 +239,27 @@ class LecturerProfile(Profile):
     class Meta:
         verbose_name = "Lecturer Profile"
 
+    def save(self, *args, **kwargs):
+        if not self.user_id:
+            self.user_id = uuid.uuid4()
+        super().save(*args, **kwargs)
+
 
 class NormalUser(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     unique_id = models.UUIDField(
-        unique=True, max_length=15, blank=True, null=True)
+        unique=True, max_length=15, blank=True, null=True, default=uuid.uuid4, editable=False)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
-    
+
     def __str__(self) -> str:
         return self.user.email
-    
+
     class Meta:
         verbose_name = "Normal User Profile"
 
-    
-    
+    def save(self, *args, **kwargs):
+        if not self.unique_id:
+            self.unique_id = uuid.uuid4()
+        super().save(*args, **kwargs)

@@ -27,14 +27,14 @@ class AccountAdmin(UserAdmin):
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'level', 'department', 'faculty')
+    list_display = ('user', 'level', 'department', 'faculty','user_id')
     search_fields = ('user__email', 'level', 'department', 'faculty')
     list_filter = ('level', 'department', 'faculty')
 
 
 class LecturerProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'title', 'phone', 'department',
-                    'faculty', 'years_of_experience')
+                    'faculty', 'years_of_experience','user_id')
     search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
     list_filter = ('title', 'department', 'faculty')
 
