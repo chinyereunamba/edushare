@@ -1,6 +1,5 @@
-from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import *
+from .views import PurchaseView, BookView
 
 router = DefaultRouter()
 router.register(r'purchases', PurchaseView, basename='purchase')

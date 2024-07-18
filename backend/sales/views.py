@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
-from .models import *
-from .serializers import *
+from .models import Purchase, Book
+from .serializers import BookSerializer, PurchaseSerializer
 from rest_framework import status, response, viewsets
 
 # Create your views here.

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status, response, viewsets
-from .models import *
-from .serializers import *
+from .models import Account, LecturerProfile, StudentProfile, NormalUser
+from .serializers import UserSerializer, LecturerProfileSerializer, NormalUserSerializer, StudentProfileSerializer
 # Create your views here.
 
 
@@ -12,13 +12,6 @@ class UserView(viewsets.GenericViewSet):
     def list(self, request):
         serializer = self.get_serializer(self.get_queryset(), many=True)
         return response.Response(serializer.data)
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return response.Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
         post = self.get_object()

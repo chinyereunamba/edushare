@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from .serializers import *
-from .models import *
+from .serializers import TagSerializer, AnswerSerializer, CommentSerializer, PostSerializer, QuestionSerializer
+from .models import Question, Comment,Answer,Tag, Post
 
 # Create your views here.
 
@@ -135,9 +135,10 @@ class QuestionView(GenericViewSet):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class AnswerView(GenericViewSet):
     queryset = Answer.objects.all()
-    serializer_class = QuestionSerializer
+    serializer_class = AnswerSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

@@ -1,4 +1,4 @@
-from .models import *
+from .models import Purchase, Book
 from rest_framework.serializers import ModelSerializer, ListField, CharField
 
 class PurchaseSerializer(ModelSerializer):

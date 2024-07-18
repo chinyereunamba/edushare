@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from .models import *
+from .models import Account, LecturerProfile, StudentProfile, NormalUser
 
 
 class UserSerializer(ModelSerializer):
