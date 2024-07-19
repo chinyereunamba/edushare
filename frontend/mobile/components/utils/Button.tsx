@@ -5,8 +5,8 @@ import { Colors } from "@/constants/Colors";
 type Props = {
   title: string;
   fnc: () => void;
-  color: string;
-  bg: string;
+  color?: string;
+  bg?: string;
   disabled?: boolean;
   icon?: React.JSX.Element;
 };
@@ -26,9 +26,7 @@ export default function CustomButton({
         styles.buttonContainer,
         {
           backgroundColor: !disabled
-            ? bg !== ""
-              ? bg
-              : Colors.light.primary
+            ? Colors.primary
             : Colors.light.primary600,
         },
       ]}
@@ -37,7 +35,7 @@ export default function CustomButton({
         style={[
           styles.buttonText,
           {
-            color: color !== "" ? color : Colors.light.background,
+            color: Colors.light.background,
             gap: 10,
             alignItems: "center",
           },

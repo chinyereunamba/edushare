@@ -1,9 +1,16 @@
 import { Link, useRouter } from "expo-router";
-import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  StatusBar,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
 import CustomButton from "@/components/utils/Button";
-import SimpleLineIcons from "@expo/vector-icons/AntDesign";
-import { StatusBar } from "expo-status-bar";
+import { Styles } from "@/constants/Styles";
+import GoogleIcon from "@/components/utils/icon";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -16,9 +23,14 @@ export default function HomeScreen() {
           alt="Splash Screen"
         />
         <Text
-          style={{ fontSize: 17, textAlign: "center", paddingVertical: 10 }}
+          style={{
+            fontSize: 17,
+            textAlign: "center",
+            paddingVertical: 10,
+            marginTop: 25,
+          }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt?
+          Get access to study materials on all courses
         </Text>
       </View>
       <View style={styles.buttonContainer}>
@@ -38,26 +50,22 @@ export default function HomeScreen() {
           color={Colors.light.background}
           bg={Colors.light.primary}
         />
-        <View style={styles.divider}>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 13,
-              color: "grey",
-            }}
-          >
-            OR
-          </Text>
+        <Text style={[Styles.positionCenter, styles.dividerText]}>OR</Text>
+        <View
+          style={[
+            {
+              alignContent: "stretch",
+              borderWidth: 1,
+              borderColor: "black",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <Link href={"/profileForm"}>
+            <GoogleIcon />
+            <Text>Continue with Google</Text>
+          </Link>
         </View>
-        <CustomButton
-          title="Continue with Google"
-          fnc={() => {
-            router.push("/sign-up");
-          }}
-          color={Colors.light.text}
-          bg={Colors.light.background}
-          icon={<SimpleLineIcons name="google" size={24} />}
-        />
       </View>
     </SafeAreaView>
   );
@@ -70,8 +78,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
   },
-  divider: {
-    paddingVertical: 2,
+  dividerText: {
+    textAlign: "center",
+    fontSize: 13,
+    color: "grey",
   },
   imageContainer: {
     flex: 1,

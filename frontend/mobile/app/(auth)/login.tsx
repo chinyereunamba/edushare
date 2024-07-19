@@ -7,11 +7,9 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Form from "@/components/utils/Form";
 import CustomButton from "@/components/utils/Button";
 import { Colors } from "@/constants/Colors";
-import { Stack } from "expo-router";
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -38,26 +36,21 @@ export default function Login() {
         </Text>
         <View>
           <Form
-            inputList={[
+            inputFields={[
               {
-                name: "Email",
-                label: "Email",
-                type: "email",
+                inputMode: "email",
+                keyboardType: "email-address",
+                maxLength: 80,
                 placeholder: "johndoe@mail.com",
-                value: user.email,
-                handleChange: (e) => {
-                  setUser({ ...user, email: e });
-                },
+                label: 'Email'
               },
               {
-                name: "password",
-                label: "Password",
-                type: "text",
-                placeholder: "********",
-                value: user.password,
-                handleChange: (e) => {
-                  setUser({ ...user, password: e });
-                },
+                inputMode: "text",
+                keyboardType: "default",
+                maxLength: 80,
+                placeholder: "*********",
+                secureEntry: true,
+                label:"Password"
               },
             ]}
           />

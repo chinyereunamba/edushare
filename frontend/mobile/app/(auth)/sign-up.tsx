@@ -1,96 +1,39 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Form from "@/components/utils/Form";
-import CustomButton from "@/components/utils/Button";
-import { Colors } from "@/constants/Colors";
-import { Link } from "expo-router";
+import "react-native-gesture-handler";
+import * as React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import StepOne from "./sign-up-steps/slide-one";
+import StepTwo from "./sign-up-steps/slide-two";
+import StepThree from "./sign-up-steps/slide-three";
 
-export default function Register() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-    rePassword: "",
-  });
-  const empty =
-    user.email === "" || user.password === "" || user.rePassword === ""
-      ? true
-      : false;
+export type RootStackParamList = {
+  StepOne: undefined;
+  StepTwo: undefined;
+  StepThree: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+export default function App() {
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS == "ios" ? 100 : 0}
-      >
-        <Text
-          style={{
-            fontSize: 24,
-            paddingVertical: 20,
-            fontWeight: 700,
-            textAlign: "center",
-          }}
-        >
-          Sign Up
-        </Text>
-        <Form
-          inputList={[
-            {
-              name: "email",
-              label: "Email",
-              type: "email",
-              placeholder: "johndoe@mail.com",
-              value: user.email,
-              handleChange: (e) => {
-                setUser({ ...user, email: e });
-              },
-            },
-            {
-              name: "password",
-              label: "Password",
-              type: "text",
-              placeholder: "********",
-              value: user.password,
-              handleChange: (e) => {
-                setUser({ ...user, password: e });
-              },
-            },
-            {
-              name: "password",
-              label: "Re-enter Password",
-              type: "text",
-              placeholder: "********",
-              value: user.rePassword,
-              handleChange: (e) => {
-                setUser({ ...user, rePassword: e });
-              },
-            },
-          ]}
-        />
-        <View>
-          <CustomButton
-            title="Sign up"
-            color={Colors.light.background}
-            bg={empty ? Colors.light.primary600 : Colors.light.primary}
-            fnc={() => {}}
-          />
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <Stack.Navigator
+      initialRouteName="StepOne"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="StepOne"
+        component={StepOne}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="StepTwo"
+        component={StepTwo}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="StepThree"
+        component={StepThree}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    flex: 1,
-    gap: 20,
-  },
-});

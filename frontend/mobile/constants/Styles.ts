@@ -5,6 +5,16 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  titleText: {
+    fontSize: 24,
+    fontWeight: "600"
+  },
+  subHeaderText: {
+    fontSize: 20,
+  },
+  textSize: {
+    fontSize: 16,
+  },
 });
 
 export { Styles };
