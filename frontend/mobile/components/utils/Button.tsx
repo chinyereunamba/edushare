@@ -4,7 +4,7 @@ import { Colors } from "@/constants/Colors";
 
 type Props = {
   title: string;
-  fnc: () => void;
+  fnc: (e?: any) => void;
   color?: string;
   bg?: string;
   disabled?: boolean;
@@ -25,9 +25,7 @@ export default function CustomButton({
       style={[
         styles.buttonContainer,
         {
-          backgroundColor: !disabled
-            ? Colors.primary
-            : Colors.light.primary600,
+          backgroundColor: !disabled ? Colors.primary : Colors.light.primary600,
         },
       ]}
     >

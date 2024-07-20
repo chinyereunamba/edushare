@@ -32,6 +32,8 @@ type Props = {
   customStyles?: TextStyle;
   inputMode: inputMode;
   label?: string;
+  value?: string;
+  handleChange: (e:string) => void;
 };
 export { type inputMode, type keyboardType, type Props };
 
@@ -43,6 +45,8 @@ export default function InputField({
   customStyles,
   inputMode,
   label,
+  value,
+  handleChange,
 }: Props) {
   return (
     <View>
@@ -54,6 +58,9 @@ export default function InputField({
         maxLength={maxLength}
         inputMode={inputMode}
         style={[styles.formInput, customStyles]}
+        defaultValue=""
+        value={value}
+        onChangeText={handleChange}
       />
     </View>
   );

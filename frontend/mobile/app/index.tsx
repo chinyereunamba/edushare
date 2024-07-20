@@ -11,9 +11,17 @@ import { Colors } from "@/constants/Colors";
 import CustomButton from "@/components/utils/Button";
 import { Styles } from "@/constants/Styles";
 import GoogleIcon from "@/components/utils/icon";
+import { useEffect } from "react";
 
 export default function HomeScreen() {
   const router = useRouter();
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     router.push("/(auth)/sign-up");
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // }, [router]);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.light.primary} />

@@ -17,6 +17,8 @@ const Form = ({ inputFields }: FormProps) => {
               maxLength={input.maxLength}
               placeholder={input.placeholder}
               secureEntry={input.secureEntry}
+              value={input.value}
+              handleChange={input.handleChange}
             />
           </View>
         );
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
   formContainer: {
     gap: 18,
   },
-  
+
   passwordIcon: {
     position: "absolute",
     alignSelf: "flex-end",

@@ -10,8 +10,10 @@ import React, { useState } from "react";
 import Form from "@/components/utils/Form";
 import CustomButton from "@/components/utils/Button";
 import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 
 export default function Login() {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -41,16 +43,16 @@ export default function Login() {
                 inputMode: "email",
                 keyboardType: "email-address",
                 maxLength: 80,
-                placeholder: "johndoe@mail.com",
-                label: 'Email'
+                placeholder: "Email address",
+                // label: "Email",
               },
               {
                 inputMode: "text",
                 keyboardType: "default",
                 maxLength: 80,
-                placeholder: "*********",
+                placeholder: "Password",
                 secureEntry: true,
-                label:"Password"
+                // label: "Password",
               },
             ]}
           />
@@ -60,7 +62,7 @@ export default function Login() {
             title="Log in"
             color={Colors.light.background}
             bg={empty ? Colors.light.primary600 : Colors.light.primary}
-            fnc={() => {}}
+            fnc={() => router.push("(tabs)")}
           />
         </View>
       </KeyboardAvoidingView>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    gap: 20,
+    gap: 30,
     justifyContent: "center",
   },
 });
