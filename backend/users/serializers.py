@@ -1,3 +1,4 @@
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import Account, LecturerProfile, StudentProfile, NormalUser
@@ -26,3 +27,19 @@ class NormalUserSerializer(ModelSerializer):
     class Meta:
         model = NormalUser
         fields = "__all__"
+
+
+class CustomRegisterSerializer(RegisterSerializer):
+    username = None
+
+    def validate_email(self, email):
+
+        if Account.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Email already exists")
+        return email
+
+    def save(self, request):
+        user = super().save(request)
+        # user.username = None
+        user.save()
+        return user

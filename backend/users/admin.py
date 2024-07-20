@@ -6,7 +6,7 @@ from .models import Account, StudentProfile, LecturerProfile, NormalUser
 
 class AccountAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
                                     'groups', 'user_permissions')}),
@@ -18,7 +18,7 @@ class AccountAdmin(UserAdmin):
             'fields': ('email', 'first_name', 'last_name', 'password1', 'password2'),
         }),
     )
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('email', 'username', 'first_name', 'last_name', 'is_staff')
     search_fields = ('first_name', 'last_name', 'email')
     ordering = ('email',)
 
@@ -27,22 +27,21 @@ class AccountAdmin(UserAdmin):
 
 
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'level', 'department', 'faculty','user_id')
+    list_display = ('user', 'level', 'department', 'faculty', 'user_id')
     search_fields = ('user__email', 'level', 'department', 'faculty')
     list_filter = ('level', 'department', 'faculty')
 
 
 class LecturerProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'title', 'phone', 'department',
-                    'faculty', 'years_of_experience','user_id')
+                    'faculty', 'years_of_experience', 'user_id')
     search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
     list_filter = ('title', 'department', 'faculty')
 
 
 class NormalUserProfileAdmin(admin.ModelAdmin):
-    list_display = ("user",'unique_id', )
+    list_display = ("user", )
     search_fields = ('user__email', 'title', 'phone', 'department', 'faculty')
-
 
 
 admin.site.register(Account, AccountAdmin)

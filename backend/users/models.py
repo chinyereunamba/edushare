@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractUser, Group, Permission
+from django.contrib.auth.models import BaseUserManager, AbstractUser, Group, Permission, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 import uuid
 # Create your models here.
@@ -68,7 +68,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class Account(AbstractUser):
+class Account(AbstractUser, PermissionsMixin):
     """
     A custom user model for the Django application.
 
@@ -92,7 +92,8 @@ class Account(AbstractUser):
     verbose_name: Verbose name of the model in the admin interface.
     """
     email = models.EmailField(
-        _("Email"), max_length=125, blank=False, null=False, unique=True)
+        _("Email"), unique=True, max_length=125, blank=False)
+    username = models.UUIDField(default=uuid.uuid4, unique=True)
     first_name = models.CharField(
         _("First name"), max_length=30, blank=True)
     last_name = models.CharField(_("Last name"), max_length=30, blank=True)
@@ -106,13 +107,13 @@ class Account(AbstractUser):
 
     groups = models.ManyToManyField(
         Group,
-        related_name='account_set',  # Change this related_name
+        related_name='account_set',
         blank=True,
     )
 
     user_permissions = models.ManyToManyField(
         Permission,
-        related_name='account_permission_set',  # Change this related_name
+        related_name='account_permission_set',
         blank=True,
     )
 
@@ -159,8 +160,6 @@ class Profile(models.Model):
 
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    user_id = models.UUIDField(
-        unique=True, default=uuid.uuid4, editable=False, max_length=15, blank=True, null=True)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
     institution = models.CharField(max_length=225, blank=True, null=True)
@@ -169,7 +168,6 @@ class Profile(models.Model):
 
     class Meta:
         abstract = True
-
 
 
 LEVELS = [
@@ -208,11 +206,6 @@ class StudentProfile(Profile):
     class Meta:
         verbose_name = "Student Profile"
 
-    def save(self, *args, **kwargs):
-        if not self.user_id:
-            self.user_id = uuid.uuid4()
-        super().save(*args, **kwargs)
-
 
 class LecturerProfile(Profile):
     """
@@ -239,17 +232,10 @@ class LecturerProfile(Profile):
     class Meta:
         verbose_name = "Lecturer Profile"
 
-    def save(self, *args, **kwargs):
-        if not self.user_id:
-            self.user_id = uuid.uuid4()
-        super().save(*args, **kwargs)
-
 
 class NormalUser(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    unique_id = models.UUIDField(
-        unique=True, max_length=15, blank=True, null=True, default=uuid.uuid4, editable=False)
     profile_image = models.ImageField(
         upload_to="images", blank=True, null=True)
 

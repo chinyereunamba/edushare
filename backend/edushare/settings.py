@@ -49,12 +49,13 @@ PROJECT_APPS = [
     "sales",
     "rest_framework",
     "rest_framework.authtoken",
+    "dj_rest_auth",
     "allauth",
     "allauth.account",
-    # "allauth.socialaccount",
-    # "allauth.socialaccount.providers.google",
-    "dj_rest_auth",
-    "dj_rest_auth.registration"
+    "dj_rest_auth.registration",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "rest_framework_simplejwt"
 
 ]
 
@@ -156,7 +157,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.ConsoleBackend'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'EMAIL_AUTHENTICATION': True,
@@ -181,7 +182,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Simple JWT settings
-REST_USE_JWT = True
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'edushare',
+    'JWT_AUTH_REFRESH_COOKIE': 'refresh',
+    "SESSION_LOGIN": True,
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
@@ -189,4 +197,11 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer", ),
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
+
 }
