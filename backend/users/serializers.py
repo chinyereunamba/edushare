@@ -1,7 +1,12 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import Account, LecturerProfile, StudentProfile, NormalUser
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class UserSerializer(ModelSerializer):
@@ -43,3 +48,13 @@ class CustomRegisterSerializer(RegisterSerializer):
         # user.username = None
         user.save()
         return user
+
+
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    username = serializers.CharField(read_only=True)
+    is_superuser = serializers.BooleanField(read_only=True)
+
+    class Meta(UserDetailsSerializer.Meta):
+        model = User
+        fields = UserDetailsSerializer.Meta.fields + \
+            ('username', 'is_superuser')

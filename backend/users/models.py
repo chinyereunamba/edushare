@@ -222,9 +222,9 @@ class LecturerProfile(Profile):
     Meta:
     verbose_name: A string representing the verbose name of the model.
     """
-    title = models.CharField(max_length=100, )
+    # title = models.CharField(max_length=100, )
     phone = models.CharField(max_length=20, blank=False, null=False)
-    years_of_experience = models.PositiveIntegerField(default=0)
+    # years_of_experience = models.PositiveIntegerField(default=0)
 
     def __str__(self) -> str:
         return self.user.email
