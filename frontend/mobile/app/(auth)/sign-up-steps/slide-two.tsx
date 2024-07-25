@@ -6,14 +6,15 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import ProgressBar from "@/components/utils/ProgressBar";
+import ProgressBar from "@/components/form/ProgressBar";
 import { useNavigation } from "expo-router";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../sign-up";
 import { Styles } from "@/constants/Styles";
-import Form from "@/components/utils/Form";
-import CustomButton from "@/components/utils/Button";
+import Form from "@/components/form/Form";
+import CustomButton from "@/components/form/Button";
 import useUserData from "@/context/signUpContext";
+import { register } from "@/services/auth";
 
 type StepTwoNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -28,12 +29,14 @@ const StepTwo = () => {
     password: "",
     rePassword: "",
   });
-  const { email, password } = useUserData((state) => {
-    return { email: state.email, password: state.password };
-  });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     createUser(user.email, user.password);
+    try {
+      await register();
+    } catch (err) {
+      console.error(err);
+    }
     navigation.navigate("StepThree");
   };
 
@@ -67,7 +70,6 @@ const StepTwo = () => {
                   value: user.password,
                   handleChange: (e) => {
                     setUser({ ...user, password: e });
-                    
                   },
                 },
                 {

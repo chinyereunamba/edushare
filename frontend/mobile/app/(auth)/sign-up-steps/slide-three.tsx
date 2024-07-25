@@ -1,4 +1,4 @@
-import ProgressBar from "@/components/utils/ProgressBar";
+import ProgressBar from "@/components/form/ProgressBar";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,8 +11,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import InputField from "@/components/utils/InputField";
-import CustomButton from "@/components/utils/Button";
+import InputField from "@/components/form/InputField";
+import CustomButton from "@/components/form/Button";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Styles } from "@/constants/Styles";
 import { useRouter } from "expo-router";
@@ -60,7 +60,7 @@ const StudentProfile = () => {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
-    school: "",
+    institution: "",
     department: "",
     faculty: "",
     level: selectedLevel,
@@ -71,7 +71,7 @@ const StudentProfile = () => {
     updateProfile({
       firstName: user.firstName,
       lastName: user.lastName,
-      school: user.school,
+      institution: user.institution,
       department: user.department,
       faculty: user.faculty,
       level: user.level,
@@ -199,8 +199,8 @@ const StudentProfile = () => {
                 maxLength={80}
                 placeholder="Institution of learning"
                 secureEntry={false}
-                value={user.school}
-                handleChange={(e) => setUser({ ...user, school: e })}
+                value={user.institution}
+                handleChange={(e) => setUser({ ...user, institution: e })}
               />
               <InputField
                 inputMode="text"

@@ -8,9 +8,9 @@ import {
   StatusBar,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
-import CustomButton from "@/components/utils/Button";
+import CustomButton from "@/components/form/Button";
 import { Styles } from "@/constants/Styles";
-import GoogleIcon from "@/components/utils/icon";
+import GoogleIcon from "@/components/form/icon";
 import { useEffect } from "react";
 
 export default function HomeScreen() {

@@ -58,7 +58,6 @@ export default function InputField({
         maxLength={maxLength}
         inputMode={inputMode}
         style={[styles.formInput, customStyles]}
-        defaultValue=""
         value={value}
         onChangeText={handleChange}
       />

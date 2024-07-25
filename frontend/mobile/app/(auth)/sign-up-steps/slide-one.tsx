@@ -1,11 +1,11 @@
-import ProgressBar from "@/components/utils/ProgressBar";
+import ProgressBar from "@/components/form/ProgressBar";
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../sign-up";
 import { Styles } from "@/constants/Styles";
-import CustomButton from "@/components/utils/Button";
+import CustomButton from "@/components/form/Button";
 import useUserData from "@/context/signUpContext";
 
 type StepOneNavigationProp = StackNavigationProp<RootStackParamList, "StepTwo">;

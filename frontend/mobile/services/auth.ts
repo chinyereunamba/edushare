@@ -1,5 +1,6 @@
 import useUserData from "@/context/signUpContext";
 import api from "./api";
+import { LecturerData, StudentData } from "@/types";
 
 const login = async (email: string, password: string) => {
   try {
@@ -24,7 +25,32 @@ const register = async () => {
     console.log(response.data);
   } catch (error) {
     console.error("Sign up error:", error);
-  } finally {
+  }
+};
+
+const createProfile = async () => {
+  const { profile, userType } = useUserData((state) => {
+    return { profile: state.profile, userType: state.userType };
+  });
+
+  if (userType == "Lecturer") {
+    const data: LecturerData = {
+      institution: profile.institution,
+      department: profile.department,
+      faculty: profile.faculty,
+      areaSpecialized: profile.areaSpecialized,
+      user: 3,
+    };
+  } else if (userType == "Student") {
+    const data: StudentData = {
+      institution: profile.institution,
+      department: profile.department,
+      faculty: profile.faculty,
+      level: profile.level,
+      user: 2,
+    };
+
+    const response = await api.post("/auth/students/", data);
   }
 };
 

@@ -1,41 +1,11 @@
+import {
+  Actions,
+  Guest,
+  LecturerProfile,
+  State,
+  StudentProfile,
+} from "@/types";
 import { create } from "zustand";
-
-type Profile = {
-  firstName: string;
-  lastName: string;
-  school: string;
-  dob: string;
-  department: string;
-  faculty: string;
-};
-
-type StudentProfile = Profile & {
-  level: string;
-};
-
-type LecturerProfile = Profile & {
-  areaSpecialized: string;
-};
-
-type Guest = {
-  firstName: string;
-  lastName: string;
-};
-
-type State = {
-  userType: "Student" | "Lecturer" | "Guest" | null;
-  email: string;
-  password: string;
-  profile: Partial<StudentProfile | LecturerProfile | Guest >;
-};
-
-type Actions = {
-  createUser: (email: State["email"], password: State["password"]) => void;
-  updateProfile: (
-    profile: Partial<StudentProfile | LecturerProfile | Guest>
-  ) => void;
-  setUserType: (userType: State["userType"]) => void;
-};
 
 const initialState: State = {
   email: "",

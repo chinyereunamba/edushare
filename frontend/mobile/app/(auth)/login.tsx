@@ -7,10 +7,10 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import Form from "@/components/utils/Form";
-import CustomButton from "@/components/utils/Button";
-import { Colors } from "@/constants/Colors";
+import Form from "@/components/form/Form";
+import CustomButton from "@/components/form/Button";
 import { useRouter } from "expo-router";
+import { login } from "@/services/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -19,6 +19,17 @@ export default function Login() {
     password: "",
   });
   const empty = user.email === "" || user.password === "" ? true : false;
+
+  const handleSubmit = async () => {
+    try {
+      await login(user.email, user.password);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      router.push("(tabs)");
+    }
+  };
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -45,6 +56,8 @@ export default function Login() {
                 maxLength: 80,
                 placeholder: "Email address",
                 // label: "Email",
+                value: user.email,
+                handleChange: (e) => setUser({ ...user, email: e }),
               },
               {
                 inputMode: "text",
@@ -53,17 +66,14 @@ export default function Login() {
                 placeholder: "Password",
                 secureEntry: true,
                 // label: "Password",
+                value: user.password,
+                handleChange: (e) => setUser({ ...user, password: e }),
               },
             ]}
           />
         </View>
         <View>
-          <CustomButton
-            title="Log in"
-            color={Colors.light.background}
-            bg={empty ? Colors.light.primary600 : Colors.light.primary}
-            fnc={() => router.push("(tabs)")}
-          />
+          <CustomButton title="Log in" fnc={handleSubmit} />
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
