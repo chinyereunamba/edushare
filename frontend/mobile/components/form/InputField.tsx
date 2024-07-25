@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput, TextStyle } from "react-native";
 import React from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type inputMode =
   | "decimal"
@@ -33,13 +34,13 @@ type Props = {
   inputMode: inputMode;
   label?: string;
   value?: string;
-  handleChange: (e:string) => void;
+  handleChange: (e: string) => void;
 };
 export { type inputMode, type keyboardType, type Props };
 
 export default function InputField({
   keyboardType,
-  secureEntry,
+  secureEntry = false,
   placeholder,
   maxLength,
   customStyles,
@@ -60,15 +61,20 @@ export default function InputField({
         style={[styles.formInput, customStyles]}
         value={value}
         onChangeText={handleChange}
+        autoCapitalize="none"
       />
+      {secureEntry && (
+        <View style={{ position: "absolute", top: 15, right: 15 }}>
+          <MaterialCommunityIcons name="eye" size={20} color={"#999"} />
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   formInput: {
-    borderWidth: 1,
-    borderColor: "grey",
+    backgroundColor: "#f5f5f5",
     paddingVertical: 12,
     paddingHorizontal: 15,
     color: "black",

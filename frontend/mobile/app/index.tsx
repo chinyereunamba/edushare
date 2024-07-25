@@ -1,4 +1,4 @@
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import {
   View,
   Text,
@@ -9,19 +9,21 @@ import {
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import CustomButton from "@/components/form/Button";
-import { Styles } from "@/constants/Styles";
-import GoogleIcon from "@/components/form/icon";
-import { useEffect } from "react";
+
 
 export default function HomeScreen() {
   const router = useRouter();
+
   // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     router.push("/(auth)/sign-up");
+  //   const timer = setTimeout(async () => {
+  //     router.push("/sign-up");
+  //     // await fetchData();
   //   }, 1000);
 
-  //   return () => clearTimeout(timer);
-  // }, [router]);
+  // return () => clearTimeout(timer);
+  // }, []);
+
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.light.primary} />
@@ -43,37 +45,13 @@ export default function HomeScreen() {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          title="Login"
+          title="Get started"
           fnc={() => {
             router.push("/login");
           }}
           color={Colors.light.background}
           bg={Colors.light.primary}
         />
-        <CustomButton
-          title="Register"
-          fnc={() => {
-            router.push("/sign-up");
-          }}
-          color={Colors.light.background}
-          bg={Colors.light.primary}
-        />
-        <Text style={[Styles.positionCenter, styles.dividerText]}>OR</Text>
-        <View
-          style={[
-            {
-              alignContent: "stretch",
-              borderWidth: 1,
-              borderColor: "black",
-              justifyContent: "center",
-            },
-          ]}
-        >
-          <Link href={"/profileForm"}>
-            <GoogleIcon />
-            <Text>Continue with Google</Text>
-          </Link>
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -83,7 +61,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignSelf: "stretch",
-    backgroundColor: "white",
     padding: 20,
   },
   dividerText: {

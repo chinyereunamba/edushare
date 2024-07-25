@@ -4,6 +4,8 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Image, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -13,8 +15,39 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         tabBarShowLabel: false,
-        tabBarStyle:{backgroundColor:Colors.primary},
-        headerShown: false,
+        tabBarStyle: { backgroundColor: Colors.primary },
+        headerStyle: {
+          backgroundColor: Colors.dark.background,
+        },
+        headerStatusBarHeight:0,
+        // headerShadowVisible: false,
+        headerShown: true,
+        headerTitleStyle: {
+          fontSize: 20,
+          color: "black",
+          padding: 0,
+          margin: 0,
+        },
+        headerRight: () => (
+          <TouchableOpacity style={{ marginRight: 20 }}>
+            <MaterialCommunityIcons name="magnify" size={22} color="grey" />
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (
+          <TouchableOpacity style={{ marginLeft: 20 }}>
+            <Image
+              source={require("../../assets/images/favicon.png")}
+              alt="profile"
+              style={{
+                borderRadius: 100,
+                width: 35,
+                height: 35,
+                borderWidth: 1,
+                borderColor: "blue",
+              }}
+            />
+          </TouchableOpacity>
+        ),
       }}
     >
       <Tabs.Screen

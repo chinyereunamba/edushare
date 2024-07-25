@@ -1,48 +1,136 @@
-import ProgressBar from "@/components/form/ProgressBar";
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useSyncExternalStore } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity
+} from "react-native";
+import { useNavigation, useRouter } from "expo-router";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../sign-up";
 import { Styles } from "@/constants/Styles";
+import Form from "@/components/form/Form";
 import CustomButton from "@/components/form/Button";
 import useUserData from "@/context/signUpContext";
+import GoogleIcon from "@/components/form/icon";
 
-type StepOneNavigationProp = StackNavigationProp<RootStackParamList, "StepTwo">;
+type StepOneNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "StepThree"
+>;
 
 const StepOne = () => {
   const navigation = useNavigation<StepOneNavigationProp>();
-  const setUserType = useUserData((state) => state.setUserType);
-  const userType = useUserData((state) => state.userType);
-
-  useEffect(() => {
-    console.log("User Type changed:", userType);
-  }, [userType]);
+  const createUser = useUserData((state) => state.createUser);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    rePassword: "",
+  });
+  const router = useRouter();
+  const handleSubmit = async () => {
+    createUser(user.email, user.password);
+    
+    navigation.navigate("StepTwo");
+  };
 
   return (
     <View style={styles.container}>
-      <ProgressBar step={1} totalSteps={3} />
-      <View style={[styles.slideContent]}>
-        <Text style={[Styles.titleText, { textAlign: "center" }]}>
-          Sign up as
-        </Text>
+      <KeyboardAvoidingView>
         <View>
-          <CustomButton
-            title="Lecturer"
-            fnc={() => {
-              setUserType("Lecturer");
-              navigation.navigate("StepTwo");
-            }}
-          />
-          <CustomButton
-            title="Student"
-            fnc={() => {
-              setUserType("Student");
-              navigation.navigate("StepTwo");
-            }}
-          />
+          <View style={{ marginBottom: 30 }}>
+            <Text style={[Styles.titleText]}>Create your account</Text>
+            <Text style={[Styles.accentText, Styles.textSize]}>
+              Lorem ipsum dolor sit amet.
+            </Text>
+          </View>
+          <View>
+            <TouchableOpacity style={[{ alignContent: "stretch" }]}>
+              <View
+                style={{
+                  borderWidth: 1,
+                  flexDirection: "row",
+                  borderColor: "#ddd",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 8,
+                  paddingVertical: 8,
+                  borderRadius: 8,
+                }}
+              >
+                <GoogleIcon />
+                <Text
+                  style={{
+                    fontWeight: "600",
+                    fontSize: 17,
+                    textAlign: "center",
+                  }}
+                >
+                  Sign up with Google
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <Text
+              style={[
+                Styles.textSize,
+                Styles.accentText,
+                { textAlign: "center", marginVertical: 10 },
+              ]}
+            >
+              Or sign up with
+            </Text>
+            <Form
+              inputFields={[
+                {
+                  inputMode: "email",
+                  keyboardType: "email-address",
+                  maxLength: 100,
+                  placeholder: "Email address",
+                  value: user.email,
+                  handleChange: (e) => {
+                    setUser({ ...user, email: e });
+                  },
+                },
+                {
+                  inputMode: "text",
+                  keyboardType: "default",
+                  maxLength: 20,
+                  placeholder: "Password",
+                  secureEntry: true,
+                  value: user.password,
+                  handleChange: (e) => {
+                    setUser({ ...user, password: e });
+                  },
+                },
+                {
+                  inputMode: "text",
+                  keyboardType: "default",
+                  maxLength: 20,
+                  placeholder: "Repeat password",
+                  secureEntry: true,
+                  value: user.rePassword,
+                  handleChange: (e) => setUser({ ...user, rePassword: e }),
+                },
+              ]}
+            />
+          </View>
+
+          <View>
+            <Text
+              style={[
+                Styles.textSize,
+                { textAlign: "right", marginVertical: 10 },
+              ]}
+            >
+              Already have an account?{" "}
+              <Text onPress={() => router.back()}>Sign in</Text>
+            </Text>
+          </View>
+          <CustomButton title="Sign up" fnc={handleSubmit} />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -53,10 +141,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-  },
-  slideContent: {
-    flex: 1,
-    marginTop: 100,
-    gap: 20,
+    justifyContent: "center",
   },
 });

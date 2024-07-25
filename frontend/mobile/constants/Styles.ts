@@ -10,13 +10,25 @@ const Styles = StyleSheet.create({
     fontWeight: "600",
   },
   subHeaderText: {
-    fontSize: 20,
+    fontSize: 19,
+    fontWeight: "600",
+  },
+  headerText: {
+    fontSize: 17,
+    fontWeight: "500",
   },
   textSize: {
     fontSize: 16,
   },
   container: {
     padding: 20,
+  },
+  accentText: {
+    color: "#6a6a6a",
+  },
+  subContainer: {
+    paddingVertical: 10,
+    marginVertical: 8,
   },
 });
 

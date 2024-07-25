@@ -6,8 +6,8 @@ export default function Profile() {
   return (
     <ScrollView>
       <View style={Styles.container}>
+        <Text style={Styles.titleText}>User</Text>
 
-      <Text style={Styles.titleText}>Profile</Text>
       </View>
     </ScrollView>
   );
