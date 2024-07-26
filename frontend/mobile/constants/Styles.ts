@@ -21,7 +21,7 @@ const Styles = StyleSheet.create({
     fontSize: 16,
   },
   container: {
-    padding: 20,
+    paddingHorizontal: 20,
   },
   accentText: {
     color: "#6a6a6a",

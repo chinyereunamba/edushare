@@ -24,7 +24,7 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
-      await login(user.email, user.password);
+      // await login(user.email, user.password);
     } catch (err) {
       console.error(err);
     } finally {
