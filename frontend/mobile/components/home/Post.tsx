@@ -23,7 +23,6 @@ export default function Post({
 }: PostProps) {
   const [upVote, setUpVote] = useState(false);
   const [downVote, setDownVote] = useState(false);
-  const [bookmark, setBookmark] = useState(false);
   const [upVoteNumber, setUpVoteNumber] = useState(0);
 
   const upVotePost = () => {
@@ -102,8 +101,17 @@ export default function Post({
         </View>
         <MaterialIcons name="more-vert" size={22} />
       </View>
-      <View>
-        <View>
+      <View
+        style={{
+          flexDirection: "row-reverse",
+          gap: 15,
+        }}
+      >
+        <View
+          style={{
+            width: "85%",
+          }}
+        >
           {img && (
             <Image
               source={require("@/assets/images/react-logo.png")}
@@ -114,48 +122,43 @@ export default function Post({
               }}
             />
           )}
+          <Text style={[Styles.textSize, { textAlign: "left" }]}>
+            {postText}
+          </Text>
         </View>
-        <Text style={[Styles.textSize]}>{postText}</Text>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Text style={[{ fontSize: 17 }]}>{upVoteNumber}</Text>
+          <TouchableOpacity onPress={upVotePost}>
+            <Ionicons
+              name="caret-up-outline"
+              size={24}
+              color={upVote ? "blue" : "grey"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={downVotePost}>
+            <Ionicons
+              name="caret-down-outline"
+              size={24}
+              color={downVote ? "blue" : "grey"}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <TouchableOpacity
-          onPress={upVotePost}
-          style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-        >
-          <Text style={[Styles.textSize]}>{upVoteNumber}</Text>
-          <Ionicons
-            name="caret-up-outline"
-            size={24}
-            color={upVote ? "blue" : "grey"}
-          />
+
+      {/* <View style={{
+        gap: 10, flexDirection: "row", 
+      }}>
+        <TouchableOpacity>
+          <Ionicons name="share-social" size={22} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={downVotePost}
-          style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-        >
-          <Ionicons
-            name="caret-down-outline"
-            size={24}
-            color={downVote ? "blue" : "grey"}
-          />
+        <TouchableOpacity>
+          <Ionicons name="chatbox-outline" size={22} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setBookmark(!bookmark)}
-          style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-        >
-          <Text style={[Styles.textSize]}>0</Text>
-          {!bookmark ? (
-            <Ionicons name="bookmark-outline" size={22} color={"grey"} />
-          ) : (
-            <Ionicons name="bookmark" size={22} color={"blue"} />
-          )}
-        </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }

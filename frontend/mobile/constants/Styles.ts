@@ -20,6 +20,9 @@ const Styles = StyleSheet.create({
   textSize: {
     fontSize: 16,
   },
+  smallText: {
+    fontSize: 14
+  },
   container: {
     paddingHorizontal: 20,
   },

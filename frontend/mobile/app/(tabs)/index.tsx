@@ -1,7 +1,11 @@
+import Carousel from "@/components/home/IntroCard";
+import { IntroCard } from "@/components/home/IntroCard";
 import Post, { PostProps } from "@/components/home/Post";
 import { Colors, newColors } from "@/constants/Colors";
 import { Styles } from "@/constants/Styles";
-import { MaterialIcons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 import {
   StyleSheet,
@@ -56,35 +60,35 @@ export default function HomeScreen() {
     {
       name: "Chinyere Unamba",
       postText:
-        "Lorem ipsum dolor sit amet\
-       consectetur, adipisicing elit. Provident \
-       dignissimos porro cumque quod animi\
-        ullam.",
+        "This is the first post on this app that is actually readable. If you can read this, upvote.",
       level: "400 Level",
     },
     {
       name: "Kingston Great",
       postText:
-        "Lorem ipsum dolor sit amet\
-       consectetur, adipisicing elit. Provident \
-       dignissimos porro cumque quod animi\
-        ullam.",
-      level: "300 Level",
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident dignissimos porro cumque quod animi ullam.",
+      level: "Lecturer",
     },
     {
       name: "Jericho Israel",
       postText:
-        "Lorem ipsum dolor sit amet\
-       consectetur, adipisicing elit. Provident \
-       dignissimos porro cumque quod animi\
-        ullam.",
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident dignissimos porro cumque quod animi ullam.",
       level: "100 Level",
     },
   ];
+
+  const intro = [
+    { name: "Study Space", bg: newColors.crayola["800"] },
+    { name: "Buy Books", bg: newColors.iris["800"] },
+    { name: "Ask your peers", bg: newColors.viridian["800"] },
+    { name: "Answer your peers", bg: newColors.french_gray["800"] },
+  ];
+
   return (
     <ScrollView>
       <StatusBar barStyle={"light-content"} backgroundColor={Colors.primary} />
       <View style={Styles.container}>
+        <Carousel intro={intro} />
         <View
           style={{
             paddingVertical: 15,
@@ -101,7 +105,7 @@ export default function HomeScreen() {
             <View key={item.id} style={{ alignItems: "center" }}>
               <TouchableOpacity>
                 <MaterialIcons
-                  name={item.icon}
+                  name={item.icon as any}
                   size={20}
                   style={{
                     padding: 10,
@@ -118,17 +122,14 @@ export default function HomeScreen() {
         </View>
         <View>
           <Text style={[Styles.headerText]}>Posts</Text>
-          <FlatList
-            data={posts}
-            keyExtractor={(item) => item.name}
-            renderItem={({ item }) => (
-              <Post
-                name={item.name}
-                level={item.level}
-                postText={item.postText}
-              />
-            )}
-          />
+          {posts.map((item) => (
+            <Post
+              key={item.name}
+              name={item.name}
+              level={item.level}
+              postText={item.postText}
+            />
+          ))}
         </View>
       </View>
     </ScrollView>
