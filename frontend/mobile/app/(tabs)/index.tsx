@@ -14,7 +14,6 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  FlatList,
 } from "react-native";
 
 type sectionProps = {

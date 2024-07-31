@@ -62,6 +62,7 @@ export default function InputField({
         value={value}
         onChangeText={handleChange}
         autoCapitalize="none"
+        cursorColor={"black"}
       />
       {secureEntry && (
         <View style={{ position: "absolute", top: 15, right: 15 }}>

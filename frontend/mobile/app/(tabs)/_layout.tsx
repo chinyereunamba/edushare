@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { useRouter, Tabs } from "expo-router";
 import React from "react";
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
@@ -9,6 +9,7 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
 
   return (
     <Tabs
@@ -156,6 +157,21 @@ export default function TabLayout() {
               size={20}
             />
           ),
+          headerRight: () => (
+            <View
+              style={{
+                marginRight: 20,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => router.push("(screens)/settings")}
+              >
+                <MaterialIcons name="settings" size={24} />
+              </TouchableOpacity>
+            </View>
+          ),
+          headerShown: true,
+          headerShadowVisible: false,
         }}
       />
     </Tabs>
