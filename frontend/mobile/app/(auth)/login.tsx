@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import Form from "@/components/form/Form";
 import CustomButton from "@/components/form/Button";
 import { useRouter } from "expo-router";
-import { login } from "@/services/auth";
+import { login, logout } from "@/services/auth";
 import { Styles } from "@/constants/Styles";
 import GoogleIcon from "@/components/form/icon";
 
@@ -24,7 +24,7 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
-      // await login(user.email, user.password);
+      // logout()
     } catch (err) {
       console.error(err);
     } finally {

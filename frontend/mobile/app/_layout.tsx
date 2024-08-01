@@ -13,11 +13,13 @@ import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const router = useRouter()
+  const router = useRouter();
 
   const [initialized] = useState(true);
   const [authenticated] = useState(true);
@@ -27,32 +29,49 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && initialized) {
       SplashScreen.hideAsync();
       if (authenticated) {
-        return router.push("(tabs)/");
+        return router.push("(tabs)/profile");
       }
     }
-  }, [loaded]);
+  }, [loaded, initialized]);
 
-  if (!loaded) {
+  if (!loaded || !initialized) {
     return null;
   }
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <StatusBar
-          barStyle={colorScheme === "dark" ? "light-content" : "default"}
-          backgroundColor={Colors.primary}
-        />
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ThemeProvider>
+      <GestureHandlerRootView>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <StatusBar
+            barStyle={colorScheme === "dark" ? "light-content" : "default"}
+            backgroundColor={Colors.primary}
+          />
+          <Stack screenOptions={{ headerShown: false }}>
+            {/* {authenticated == true ? (
+            <> */}
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="(screens)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="+not-found" />
+            {/* </>
+          ) : (
+            <> */}
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            {/* </>
+          )} */}
+          </Stack>
+        </ThemeProvider>
+      </GestureHandlerRootView>
     </SafeAreaView>
   );
 }

@@ -1,4 +1,11 @@
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import React, { useState } from "react";
 import { Colors } from "@/constants/Colors";
 
@@ -7,8 +14,9 @@ type Props = {
   fnc: (e?: any) => void;
   color?: string;
   bg?: string;
-  disabled?: boolean;
   icon?: React.JSX.Element;
+  style?: ViewStyle;
+  disabled?: boolean;
 };
 
 export default function CustomButton({
@@ -18,12 +26,14 @@ export default function CustomButton({
   bg,
   icon,
   disabled,
+  style,
 }: Props) {
   return (
     <TouchableOpacity
       onPress={fnc}
       style={[
         styles.buttonContainer,
+        style,
         {
           backgroundColor: !disabled ? Colors.primary : Colors.light.primary600,
         },

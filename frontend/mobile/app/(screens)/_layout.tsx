@@ -1,6 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+
 
 export default function ScreenLayout() {
   return (
@@ -13,14 +15,23 @@ export default function ScreenLayout() {
         name="settings"
         options={{
           headerStyle: {
-            // backgroundColor: "transparent",
+            backgroundColor: "transparent",
           },
           headerTitle: "Settings",
           headerTitleStyle: {
-            color: "white",
+            color: "black",
           },
           headerShadowVisible: false,
           headerShown: true,
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                console.log("pressed");
+              }}
+            >
+              <Ionicons name="search" size={22} />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack>

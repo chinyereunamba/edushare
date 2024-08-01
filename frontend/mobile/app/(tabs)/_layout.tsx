@@ -4,8 +4,8 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Image, TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -164,7 +164,7 @@ export default function TabLayout() {
               }}
             >
               <TouchableOpacity
-                onPress={() => router.push("(screens)/settings")}
+                onPress={() => router.navigate("(screens)/settings")}
               >
                 <MaterialIcons name="settings" size={24} />
               </TouchableOpacity>
@@ -172,6 +172,7 @@ export default function TabLayout() {
           ),
           headerShown: true,
           headerShadowVisible: false,
+          headerTitle: "",
         }}
       />
     </Tabs>
