@@ -5,12 +5,6 @@ class PurchaseSerializer(ModelSerializer):
     class Meta:
         model = Purchase
         fields = "__all__"
-        
-class BookSerializer(ModelSerializer):
-    class Meta:
-        model = Book
-        fields = "__all__"
-
 
 class BookSerializer(ModelSerializer):
     authors = ListField(

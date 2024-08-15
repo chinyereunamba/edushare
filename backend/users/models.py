@@ -244,8 +244,3 @@ class NormalUser(models.Model):
 
     class Meta:
         verbose_name = "Normal User Profile"
-
-    def save(self, *args, **kwargs):
-        if not self.unique_id:
-            self.unique_id = uuid.uuid4()
-        super().save(*args, **kwargs)

@@ -17,11 +17,13 @@ class CommentAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ['tag', 'created_at']
+    search_fields = ['tag',]
 
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ['author', 'title', 'answered', "created_at", "updated_at"]
     list_filter = ['author', 'answered']
+    search_fields = ['author', ]
 
 
 class AnswerAdmin(admin.ModelAdmin):

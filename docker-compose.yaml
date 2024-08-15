@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      image: edushare-backend:latest
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+
+  web:
+    build:
+      context: ./frontend/web
+      dockerfile: Dockerfile
+    container_name: web
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+  mobile:
+    build:
+      context: ./frontend/mobile
+      image: edushare-mobile:latest
+      dockerfile: Dockerfile
+    container_name: mobile
+    ports:
+      - "19006:19006" # Example port for Expo
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
