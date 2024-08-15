@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from base.urls import router as base_router
 from sales.urls import router as sales_router
@@ -23,3 +25,5 @@ urlpatterns = [
     path("api/auth/", include("dj_rest_auth.urls"), name="accounts"),
     path('api/auth/register/', include('dj_rest_auth.registration.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
