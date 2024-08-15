@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', True)
 
-ALLOWED_HOSTS = ["10.0.2.2", '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["10.0.2.2", "127.0.0.1", "localhost", ".koyeb.app"]
 
 
 # Application definition
