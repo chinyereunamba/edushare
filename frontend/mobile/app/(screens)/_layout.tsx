@@ -3,7 +3,6 @@ import React from "react";
 import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-
 export default function ScreenLayout() {
   return (
     <Stack
@@ -32,6 +31,20 @@ export default function ScreenLayout() {
               <Ionicons name="search" size={22} />
             </TouchableOpacity>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="gpa-calculator"
+        options={{
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
+          headerTitle: "CGPA Calculator",
+          headerTitleStyle: {
+            color: "black",
+          },
+          headerShadowVisible: false,
+          headerShown: true,
         }}
       />
     </Stack>

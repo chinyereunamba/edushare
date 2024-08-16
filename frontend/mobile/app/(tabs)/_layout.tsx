@@ -6,10 +6,12 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import useUser from "@/context/userContext";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
+  const {user} = useUser();
 
   return (
     <Tabs
@@ -24,34 +26,7 @@ export default function TabLayout() {
           backgroundColor: Colors.dark.background,
         },
         headerStatusBarHeight: 0,
-        // headerShadowVisible: false,
         headerShown: false,
-        // headerTitleStyle: {
-        //   fontSize: 20,
-        //   color: "black",
-        //   padding: 0,
-        //   margin: 0,
-        // },
-        // headerRight: () => (
-        //   <TouchableOpacity style={{ marginRight: 20 }}>
-        //     <MaterialCommunityIcons name="magnify" size={22} color="grey" />
-        //   </TouchableOpacity>
-        // ),
-        // headerLeft: () => (
-        //   <TouchableOpacity style={{ marginLeft: 20 }}>
-        //     <Image
-        //       source={require("../../assets/images/favicon.png")}
-        //       alt="profile"
-        //       style={{
-        //         borderRadius: 100,
-        //         width: 35,
-        //         height: 35,
-        //         borderWidth: 1,
-        //         borderColor: "blue",
-        //       }}
-        //     />
-        //   </TouchableOpacity>
-        // ),
       }}
     >
       <Tabs.Screen
@@ -71,7 +46,7 @@ export default function TabLayout() {
           headerTitleStyle: {
             color: "black",
           },
-          headerTitle: "Welcome, Chinyere",
+          headerTitle: `Welcome, ${user?.user?.firstName}`,
           headerRight: () => (
             <View style={{ flexDirection: "row", gap: 15, marginRight: 20 }}>
               <TouchableOpacity>
@@ -173,6 +148,9 @@ export default function TabLayout() {
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
         }}
       />
     </Tabs>

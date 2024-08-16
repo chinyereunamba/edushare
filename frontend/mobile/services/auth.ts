@@ -1,30 +1,35 @@
 import useUserData from "@/context/signUpContext";
 import api from "./api";
-import { LecturerData, StudentData } from "@/types";
-import axios from "axios";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { useEffect } from "react";
+
+
+useEffect(() => {
+  GoogleSignin.configure({
+    webClientId: "<YOUR_WEB_CLIENT_ID>",
+  });
+}, []);
 
 const login = async (email: string, password: string) => {
   try {
-    const response = await api.post(`http://127.0.0.1:8000/api/auth/login/`, {
-      email,
-      password,
+    await api({
+      url: "/api/auth/login/",
+      data: JSON.stringify({
+        email: email,
+        username: email,
+        password: password,
+      }),
+      method: "POST",
+    }).then((res) => {
+      return res;
     });
-    // console.log(response.json());
-    const { access, refresh } = response.data;
-    console.log("Access: ", access, "Refresh: ", refresh);
-
-    // const response = await fetch("http://127.0.0.1:8000/api/auth/login/", {
-    //   method: "POST",
-    //   body: {
-    //     email: email,
-    //     password: password,
-    //   },
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // }).then((res) => console.log(res));
-  } catch (error) {
-    console.error("Login error:", error);
+  } catch (e) {
+    console.info("login", e);
+  } finally {
+    console.log("Sent");
   }
 };
 
@@ -73,11 +78,24 @@ const register = async () => {
 
 const logout = async () => {
   try {
-    // await getCsrfToken();
-    const response = await api.post("/auth/logout/");
-    console.log(response.data);
-  } catch (error) {
-    console.error("Logout error:", error);
+    await api({
+      url: "/api/auth/login/",
+      data: JSON.stringify({
+        email: "admin@mail.com",
+        password: "user1234",
+      }),
+      method: "POST",
+    }).then((res) => {
+      console.log(res.status);
+      console.log(res.data);
+      console.log(res.statusText);
+      console.log(res.headers);
+      console.log(res.config);
+    });
+  } catch (e) {
+    console.info("login", e);
+  } finally {
+    console.log("Sent");
   }
 };
 
@@ -96,5 +114,27 @@ const fetchData = async () => {
   // console.log(response.json());
   // return response.json();
 };
+
+
+
+
+const signIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    // Send userInfo.idToken to Django for verification
+  } catch (error:any) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the sign-in flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (e.g., sign-in) is in progress already
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+    } else {
+      // some other error
+    }
+  }
+};
+
 
 export { login, logout, register, fetchData };

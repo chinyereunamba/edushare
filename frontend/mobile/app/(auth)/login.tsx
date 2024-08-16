@@ -6,88 +6,89 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "@/components/form/Form";
 import CustomButton from "@/components/form/Button";
 import { useRouter } from "expo-router";
-import { login, logout } from "@/services/auth";
+import { login } from "@/services/auth";
 import { Styles } from "@/constants/Styles";
 import GoogleIcon from "@/components/form/icon";
+import { UserProps } from "@/types";
+import useUser from "@/context/userContext";
+import api from "@/services/api";
+import { Colors } from "@/constants/Colors";
 
 export default function Login() {
   const router = useRouter();
-  const [user, setUser] = useState({
+  const [getUser, setGetUser] = useState({
     email: "",
     password: "",
   });
-  const empty = user.email === "" || user.password === "" ? true : false;
+  const empty = getUser.email === "" || getUser.password === "" ? true : false;
 
+  const [response, setResponse] = useState<UserProps>({
+    accessToken: "",
+    refreshToken: "",
+    user: {
+      pk: null,
+      email: "",
+      username: "",
+      isSuperUser: false,
+      firstName: "",
+      lastName: "",
+    },
+  });
+  const { saveUser, user } = useUser();
   const handleSubmit = async () => {
-    try {
-      // logout()
-    } catch (err) {
-      console.error(err);
-    } finally {
-      router.push("(tabs)");
-    }
+    await api({
+      url: "/api/auth/login/",
+      data: JSON.stringify({
+        email: getUser.email,
+        username: getUser.email,
+        password: getUser.password,
+      }),
+      method: "POST",
+    }).then((res) => {
+      const data = res.data;
+      console.log("user: ", res.data);
+      setResponse({
+        accessToken: data.access,
+        refreshToken: data.refresh,
+        user: {
+          email: data.user.email,
+          pk: data.user.pk,
+          username: data.user.username,
+          isSuperUser: data.user.is_superuser,
+          firstName: data.user.first_name,
+          lastName: data.user.last_name,
+        },
+      });
+    });
+    saveUser(response);
+    console.log("This fresh login", user);
+    router.replace("(tabs)");
   };
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS == "ios" ? 100 : 0}
-      >
-        <View style={{ marginBottom: 30 }}>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            Welcome Back!
-          </Text>
-          <Text style={[Styles.textSize, Styles.accentText]}>
-            To get started sign in to your account
-          </Text>
-        </View>
-        <View>
-          <TouchableOpacity style={[{ alignContent: "stretch" }]}>
-            <View
-              style={{
-                borderWidth: 1,
-                flexDirection: "row",
-                borderColor: "#ddd",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 8,
-                paddingVertical: 8,
-                borderRadius: 8,
-              }}
-            >
-              <GoogleIcon />
-              <Text
-                style={{
-                  fontWeight: "600",
-                  fontSize: 17,
-                  textAlign: "center",
-                }}
-              >
-                Sign in with Google
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <Text
-            style={[
-              Styles.textSize,
-              Styles.accentText,
-              { textAlign: "center", marginVertical: 10 },
-            ]}
-          >
-            Or sign in with
-          </Text>
-
+      <View style={{ marginBottom: 30 }}>
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: 700,
+          }}
+        >
+          Welcome Back!
+        </Text>
+        <Text style={[Styles.textSize, Styles.accentText]}>
+          To get started sign in to your account
+        </Text>
+      </View>
+      <View>
+        <KeyboardAvoidingView
+          behavior="padding"
+          keyboardVerticalOffset={Platform.OS == "ios" ? 100 : 0}
+        >
           <Form
             inputFields={[
               {
@@ -95,9 +96,8 @@ export default function Login() {
                 keyboardType: "email-address",
                 maxLength: 80,
                 placeholder: "Email address",
-                // label: "Email",
-                value: user.email,
-                handleChange: (e) => setUser({ ...user, email: e }),
+                value: getUser.email,
+                handleChange: (e) => setGetUser({ ...getUser, email: e }),
               },
               {
                 inputMode: "text",
@@ -105,27 +105,54 @@ export default function Login() {
                 maxLength: 80,
                 placeholder: "Password",
                 secureEntry: true,
-                // label: "Password",
-                value: user.password,
-                handleChange: (e) => setUser({ ...user, password: e }),
+                value: getUser.password,
+                handleChange: (e) => setGetUser({ ...getUser, password: e }),
               },
             ]}
           />
-        </View>
-        <View>
-          <Text
-            style={[Styles.textSize, { textAlign: "right", marginVertical: 10 }]}
+          <View
+            style={{
+              marginVertical: 10,
+            }}
           >
-            Don't have an account?{" "}
             <Text
-              onPress={() => router.navigate("/sign-up")}
+              style={[
+                Styles.textSize,
+                {
+                  textAlign: "right",
+                  fontSize: 14,
+                },
+              ]}
             >
-              Sign up
+              Don't have an account?{" "}
+              <Text
+                style={{ color: Colors.primary, fontWeight: "700" }}
+                onPress={() => router.navigate("/sign-up")}
+              >
+                Sign up
+              </Text>
             </Text>
-          </Text>
-          <CustomButton title="Sign in" fnc={handleSubmit} />
-        </View>
-      </KeyboardAvoidingView>
+            <Text
+              style={[
+                Styles.textSize,
+                {
+                  color: Colors.primary,
+                  fontWeight: "700",
+                  textAlign: "right",
+                  fontSize: 14,
+                },
+              ]}
+              onPress={() => router.navigate("/reset-password")}
+            >
+              Forgot password?
+            </Text>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+
+      <View>
+        <CustomButton disabled={empty} title="Sign in" fnc={handleSubmit} />
+      </View>
     </View>
   );
 }

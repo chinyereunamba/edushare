@@ -3,9 +3,10 @@ import { IntroCard } from "@/components/home/IntroCard";
 import Post, { PostProps } from "@/components/home/Post";
 import { Colors, newColors } from "@/constants/Colors";
 import { Styles } from "@/constants/Styles";
-import {
-  MaterialIcons,
-} from "@expo/vector-icons";
+import useUser from "@/context/userContext";
+import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useEffect } from "react";
 
 import {
   StyleSheet,
@@ -24,6 +25,11 @@ type sectionProps = {
   color?: string;
 };
 export default function HomeScreen() {
+  const { user, loadUser } = useUser();
+  useEffect(() => {
+    loadUser();
+  }, []);
+
   const sectionList: sectionProps[] = [
     {
       id: 1,
@@ -34,9 +40,9 @@ export default function HomeScreen() {
     },
     {
       id: 2,
-      name: "Task",
-      to: "",
-      icon: "task-alt",
+      name: "GPA",
+      to: "(screens)/gpa-calculator",
+      icon: "calculate",
       color: newColors.viridian["600"],
     },
     {
@@ -102,7 +108,11 @@ export default function HomeScreen() {
         >
           {sectionList.map((item, id) => (
             <View key={item.id} style={{ alignItems: "center" }}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(user);
+                }}
+              >
                 <MaterialIcons
                   name={item.icon as any}
                   size={20}

@@ -5,19 +5,31 @@ import { Colors } from "@/constants/Colors";
 import { Styles } from "@/constants/Styles";
 
 export const Posts = () => (
-  <View style={{ paddingVertical: 10, backgroundColor: "transparent" }}>
-    <Text>Hello</Text>
+  <View style={styles.tab}>
+    <Text>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Est dolorem
+      porro, eveniet dolor eligendi corporis pariatur, vitae et sequi doloremque
+      sint quibusdam distinctio ipsum aperiam sit soluta nesciunt! Facilis,
+      dignissimos numquam. Iure ipsam voluptates maxime quia deleniti quam.
+      Deserunt rem error ipsam, porro nihil nobis molestias necessitatibus nisi
+      tempora, maiores doloribus labore numquam fugiat laboriosam sint saepe
+      consequatur distinctio nulla a et. Reprehenderit a eligendi cum iure,
+      nesciunt repudiandae? Incidunt doloremque cum magnam ea, sit sequi aut
+      fugit vel impedit explicabo error minus, nihil eos blanditiis enim ipsa?
+      Rerum aspernatur quidem dolor iste voluptatem blanditiis accusamus esse at
+      maxime eius?
+    </Text>
   </View>
 );
 
 export const Groups = () => (
-  <View style={{ paddingVertical: 10, backgroundColor: "transparent" }}>
+  <View style={styles.tab}>
     <Text>There</Text>
   </View>
 );
 
 export const SecondRoute = () => (
-  <View style={{ paddingVertical: 10, backgroundColor: "transparent" }}>
+  <View style={styles.tab}>
     <Text>There</Text>
   </View>
 );
@@ -44,7 +56,7 @@ export default function ProfileTabs() {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: Colors.primary }}
-      style={[styles.tabBar, { backgroundColor: "transparent" }]}
+      style={[styles.tabBar, { backgroundColor: "transparent", flex: 1 }]}
       labelStyle={{ color: "white", fontWeight: "bold" }}
       renderLabel={({ route, focused, color }) => (
         <Text style={[Styles.textSize, { color: focused ? "black" : "black" }]}>
@@ -77,5 +89,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0, // Remove shadow on iOS
     shadowOffset: { height: 0, width: 0 }, // Remove shadow on iOS
     shadowRadius: 0, // Remove shadow on iOS
+  },
+  tab: {
+    minHeight: 100,
+    paddingVertical: 10,
+    backgroundColor: "transparent",
+    flex: 1,
   },
 });

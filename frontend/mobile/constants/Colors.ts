@@ -84,6 +84,8 @@ export const newColors = {
 export const Colors = {
   primary: "#0f4c75ff",
   secondary: "#faac47ff",
+  accent: "grey",
+
   light: {
     text: "#24292dff",
     primary: "#0f4c75ff",

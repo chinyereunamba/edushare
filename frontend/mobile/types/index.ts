@@ -40,6 +40,25 @@ type Actions = {
   setUserType: (userType: State["userType"]) => void;
 };
 
+type UserProps = {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    pk: number | null;
+    email: string;
+    isSuperUser: boolean;
+    username: string;
+    firstName: string;
+    lastName: string;
+  };
+};
+
+type UserState = {
+  user: UserProps;
+  setUser: (data: UserProps) => void;
+  setTokens: (accessToken: string, refreshToken: string) => void;
+};
+
 type ProfileData = Profile & {
   user: number;
 };
@@ -58,4 +77,6 @@ export type {
   StudentData,
   LecturerData,
   GuestData,
+  UserState,
+  UserProps,
 };

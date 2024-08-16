@@ -12,8 +12,10 @@ import { Styles } from "@/constants/Styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "@/components/form/Button";
 import ProfileTabs from "../(screens)/profile-tab";
+import useUser from "@/context/userContext";
 
 export default function Profile() {
+  const {user} = useUser()
   
   return (
     <ScrollView>
@@ -71,7 +73,7 @@ export default function Profile() {
             }}
           >
             <Text style={[Styles.subHeaderText, { textAlign: "center" }]}>
-              Design Team
+              {user?.user.firstName} {user?.user.lastName}
             </Text>
             <Text
               style={[

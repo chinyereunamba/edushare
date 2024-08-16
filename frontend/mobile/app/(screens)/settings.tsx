@@ -111,7 +111,7 @@ const Settings = () => {
     },
     {
       title: "",
-      data: [{ name: "Logout", link: "/" }],
+      data: [{ name: "Logout", link: "/logout" }],
     },
   ];
   return (

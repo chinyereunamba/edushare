@@ -1,5 +1,12 @@
-import { StyleSheet, Text, View, TextInput, TextStyle } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TextStyle,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type inputMode =
@@ -49,12 +56,13 @@ export default function InputField({
   value,
   handleChange,
 }: Props) {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <View>
       {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         keyboardType={keyboardType}
-        secureTextEntry={secureEntry}
+        secureTextEntry={secureEntry && !showPassword}
         placeholder={placeholder}
         maxLength={maxLength}
         inputMode={inputMode}
@@ -65,9 +73,16 @@ export default function InputField({
         cursorColor={"black"}
       />
       {secureEntry && (
-        <View style={{ position: "absolute", top: 15, right: 15 }}>
-          <MaterialCommunityIcons name="eye" size={20} color={"#999"} />
-        </View>
+        <TouchableOpacity
+          style={{ position: "absolute", top: 15, right: 15 }}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          <MaterialCommunityIcons
+            name={showPassword ? "eye-off" : "eye"}
+            size={22}
+            color={"#999"}
+          />
+        </TouchableOpacity>
       )}
     </View>
   );

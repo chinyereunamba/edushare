@@ -6,24 +6,27 @@ import {
   SafeAreaView,
   Image,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import CustomButton from "@/components/form/Button";
-
+import GoogleIcon from "@/components/form/icon";
+import { Styles } from "@/constants/Styles";
+import { useEffect } from "react";
+import useUser from "@/context/userContext";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { user, loadUser } = useUser();
 
-  // useEffect(() => {
-  //   const timer = setTimeout(async () => {
-  //     router.push("/sign-up");
-  //     // await fetchData();
-  //   }, 1000);
+  useEffect(() => {
+    console.log(user);
+    if (user !== null) {
+      loadUser();
+      router.replace('(tabs)/')
+    }
+  }, [user]);
 
-  // return () => clearTimeout(timer);
-  // }, []);
-
-  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.light.primary} />
@@ -52,6 +55,40 @@ export default function HomeScreen() {
           color={Colors.light.background}
           bg={Colors.light.primary}
         />
+        <Text
+          style={[
+            Styles.textSize,
+            Styles.accentText,
+            { textAlign: "center", marginVertical: 10 },
+          ]}
+        >
+          Or sign in with
+        </Text>
+        <TouchableOpacity style={[{ alignContent: "stretch" }]}>
+          <View
+            style={{
+              borderWidth: 1,
+              flexDirection: "row",
+              borderColor: "#ddd",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 8,
+              paddingVertical: 8,
+              borderRadius: 8,
+            }}
+          >
+            <GoogleIcon />
+            <Text
+              style={{
+                fontWeight: "600",
+                fontSize: 17,
+                textAlign: "center",
+              }}
+            >
+              Continue with Google
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
