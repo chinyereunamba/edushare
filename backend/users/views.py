@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 import random
 from django.shortcuts import render
-from rest_framework import status, response, viewsets
+from rest_framework import status, response, viewsets, permissions
 from .models import Account, LecturerProfile, StudentProfile, NormalUser
 from .serializers import (
     UserSerializer,
@@ -15,13 +15,61 @@ from .serializers import (
 # Create your views here.
 
 from dj_rest_auth.views import LoginView
+import json
+from django.http import JsonResponse
+from django.views import View
+from django.contrib.auth import login
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from rest_framework.permissions import AllowAny
+from allauth.socialaccount.models import SocialLogin
+from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from django.contrib.auth import get_user_model
 
 
-class GoogleLogin(LoginView):
+class GoogleLogin(View):
     adapter_class = GoogleOAuth2Adapter
-    permission_classes = (AllowAny,)
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        access_token = data.get('access_token')
+        id_token = data.get('id_token')
+
+        if not access_token or not id_token:
+            return JsonResponse({'error': 'Missing access_token or id_token'}, status=400)
+
+        try:
+            # Create Google OAuth2 adapter and get the app
+            adapter = GoogleOAuth2Adapter()
+            app = adapter.get_provider().get_app(request)
+
+            # Create a SocialLogin object
+            login = adapter.complete_login(
+                request, app, access_token=access_token, id_token=id_token)
+            login.token = access_token
+
+            # Check if the user is already authenticated
+            if login.user.is_authenticated:
+                login(request, login.user)
+                return JsonResponse({'success': True, 'message': 'User logged in successfully'})
+
+            # Otherwise, create a new user
+            if login.user is None:
+                UserModel = get_user_model()
+                email = login.account.extra_data.get('email')
+                # You may want a more robust username generation
+                username = email.split('@')[0]
+                user = UserModel.objects.create_user(
+                    email=email,
+                    username=username,
+                    password=UserModel.objects.make_random_password(),  # Random password
+                )
+                login.user = user
+                login(request, user)
+
+            return JsonResponse({'success': True, 'message': 'User logged in successfully'})
+
+        except (OAuth2Error) as e:
+            return JsonResponse({'error': str(e)}, status=400)
 
 
 class UserView(viewsets.GenericViewSet):

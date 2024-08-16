@@ -182,6 +182,7 @@ LOGIN_REDIRECT_URL = "/"
 SITE_ID = 1
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+CLIENT_ID = config("CLIENT_ID")
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "EMAIL_AUTHENTICATION": True,
