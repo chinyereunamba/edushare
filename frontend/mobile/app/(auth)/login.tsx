@@ -26,32 +26,23 @@ export default function Login() {
   });
   const empty = getUser.email === "" || getUser.password === "" ? true : false;
 
-  const [response, setResponse] = useState<UserProps>({
-    accessToken: "",
-    refreshToken: "",
-    user: {
-      pk: null,
-      email: "",
-      username: "",
-      isSuperUser: false,
-      firstName: "",
-      lastName: "",
-    },
-  });
   const { saveUser, user } = useUser();
   const handleSubmit = async () => {
-    await api({
-      url: "/api/auth/login/",
-      data: JSON.stringify({
-        email: getUser.email,
-        username: getUser.email,
-        password: getUser.password,
-      }),
-      method: "POST",
-    }).then((res) => {
+    try {
+      const res = await api({
+        url: "/api/auth/login/",
+        data: JSON.stringify({
+          email: getUser.email,
+          username: getUser.email, // Ensure this is correct
+          password: getUser.password,
+        }),
+        method: "POST",
+      });
+
       const data = res.data;
-      console.log("user: ", res.data);
-      setResponse({
+      console.log("user: ", data);
+
+      const newUser: UserProps = {
         accessToken: data.access,
         refreshToken: data.refresh,
         user: {
@@ -62,11 +53,15 @@ export default function Login() {
           firstName: data.user.first_name,
           lastName: data.user.last_name,
         },
-      });
-    });
-    saveUser(response);
-    console.log("This fresh login", user);
-    router.replace("(tabs)");
+      };
+
+      saveUser(newUser);
+
+      console.log("This fresh login", newUser.user);
+      router.replace("(tabs)/");
+    } catch (error) {
+      console.error("Login failed: ", error);
+    }
   };
 
   return (

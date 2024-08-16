@@ -1,17 +1,32 @@
 import useUserData from "@/context/signUpContext";
 import api from "./api";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-import { useEffect } from "react";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
+async function loginWithGoogle() {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    const idToken = userInfo.idToken;
 
-useEffect(() => {
-  GoogleSignin.configure({
-    webClientId: "<YOUR_WEB_CLIENT_ID>",
-  });
-}, []);
+    // Send idToken to your Django backend
+    const response = await fetch(
+      "http://edushare.koyeb.app/api/auth/google/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id_token: idToken }),
+      }
+    );
+
+    const data = await response.json();
+    // Handle response, store auth token, etc.
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 const login = async (email: string, password: string) => {
   try {
@@ -137,4 +152,4 @@ const signIn = async () => {
 };
 
 
-export { login, logout, register, fetchData };
+export { login, logout, register, fetchData, loginWithGoogle };

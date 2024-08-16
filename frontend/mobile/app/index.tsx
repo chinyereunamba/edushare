@@ -23,7 +23,7 @@ export default function HomeScreen() {
     console.log(user);
     if (user !== null) {
       loadUser();
-      router.replace('(tabs)/')
+      router.push("(tabs)/");
     }
   }, [user]);
 
