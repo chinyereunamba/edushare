@@ -3,8 +3,9 @@ certifi==2024.7.4
 cffi==1.16.0
 charset-normalizer==3.3.2
 cryptography==42.0.8
+dj-database-url==2.2.0
 dj-rest-auth==6.0.0
-Django==5.0.8
+Django==5.0.6
 django-allauth==0.63.3
 django-cors-headers==4.4.0
 django-filter==24.2
@@ -14,6 +15,7 @@ gunicorn==23.0.0
 idna==3.7
 packaging==24.1
 pillow==10.4.0
+psycopg2-binary==2.9.9
 pycparser==2.22
 PyJWT==1.7.1
 python-decouple==3.8

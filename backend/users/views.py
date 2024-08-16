@@ -1,24 +1,28 @@
+from django.http import Http404
+from django.db import models
+from django.conf import settings
+import random
 from django.shortcuts import render
 from rest_framework import status, response, viewsets
 from .models import Account, LecturerProfile, StudentProfile, NormalUser
-from .serializers import UserSerializer, LecturerProfileSerializer, NormalUserSerializer, StudentProfileSerializer
+from .serializers import (
+    UserSerializer,
+    LecturerProfileSerializer,
+    NormalUserSerializer,
+    StudentProfileSerializer,
+)
+
 # Create your views here.
 
-
+from dj_rest_auth.views import LoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
+from rest_framework.permissions import AllowAny
 
 
-# if you want to use Authorization Code Grant, use this
-class GoogleLogin(SocialLoginView):
+class GoogleLogin(LoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = 'CALLBACK_URL_YOU_SET_ON_GOOGLE'
-    client_class = OAuth2Client
+    permission_classes = (AllowAny,)
 
-
-class GoogleLogin(SocialLoginView):  # if you want to use Implicit Grant, use this
-    adapter_class = GoogleOAuth2Adapter
 
 class UserView(viewsets.GenericViewSet):
     serializer_class = UserSerializer
@@ -143,3 +147,37 @@ class NormalUserView(viewsets.GenericViewSet):
         post = self.get_object()
         post.delete()
         return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def generate_activation_code():
+    return "".join(
+        random.choice(string.ascii_uppercase + string.digits) for x in range(6)
+    )
+
+
+class ActivationCode(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.PROTECT)
+    code = models.CharField(max_length=6, default=generate_activation_code)
+
+
+def register_user(request):
+    # create your `new_user` however you see fit
+    code = ActivationCode.objects.create(user=new_user)
+    send_mail(
+        "Activate Your Account",
+        "Here is the activation code: %s" % code,
+        "from@example.com",
+        [user.email],
+    )
+    render(request, "activation_sent.html")
+
+
+def check_activation_code(request, code):
+    try:
+        ActivationCode.objects.get(code=code)
+        # ... All set, activate & login the user, & delete the activation code
+    except ActivationCode.DoesNotExist:
+        raise Http404
+
+    return render(request, "welcome.html")
